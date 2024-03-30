@@ -1,0 +1,19 @@
+<?php
+$bulan = 5; // Ganti dengan bulan yang diinginkan
+$tahun = 2023; // Ganti dengan tahun yang diinginkan
+
+$db = \Config\Database::connect(); // Menghubungkan ke database
+
+$query = $db->table('tabel_kehadiran')
+->select('tanggal, COUNT(*) as jumlah_kehadiran')
+->where('MONTH(tanggal)', $bulan)
+->where('YEAR(tanggal)', $tahun)
+->groupBy('tanggal')
+->get();
+
+$results = $query->getResult(); // Mendapatkan hasil query
+
+foreach ($results as $row) {
+    echo "Tanggal: " . $row->tanggal . ", Jumlah Kehadiran: " . $row->jumlah_kehadiran . "<br>";
+}
+?>
